@@ -5,8 +5,11 @@ const cors = require("cors");
 const PORT = 3000;
 const app = express();
 
-app.use("/listing", listing);
-app.use("/image", image);
+const listingRouter = require('./routes/listingRouter');
+const imageRouter = require('./routes/imageRouter');
+
+app.use("/listing", listingRouter);
+app.use("/image", imageRouter);
 
 app.use((err, req, res, next) => {
   const defaultErr = {

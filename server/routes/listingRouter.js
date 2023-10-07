@@ -3,6 +3,7 @@ const router = express.Router();
 const listingController = require("../controllers/listingController");
 
 router.get("/", listingController.getAllListings, (req, res) => {
+  console.log(res.locals.listings);
   return res.sendStatus(200);
 });
 
@@ -21,3 +22,5 @@ router.put("/", listingController.updateListing, (req, res) => {
 router.delete("/", listingController.deleteListing, (req, res) => {
   return res.sendStatus(200);
 });
+
+module.exports = router;
