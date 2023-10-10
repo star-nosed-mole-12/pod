@@ -12,15 +12,15 @@ router.get("/:id", listingController.getListing, (req, res) => {
 });
 
 router.post("/", listingController.createListing, (req, res) => {
-  return res.sendStatus(200);
+  return res.status(200).send('New listing posted');
 });
 
 router.patch("/:id", listingController.updateListing, (req, res) => {
   return res.status(200).json(res.locals.updatedListing);
 });
 
-router.delete("/", listingController.deleteListing, (req, res) => {
-  return res.sendStatus(200);
+router.delete("/:id", listingController.deleteListing, (req, res) => {
+  return res.status(200).json(res.locals.deletedListing);
 });
 
 module.exports = router;

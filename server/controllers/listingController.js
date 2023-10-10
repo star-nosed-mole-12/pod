@@ -142,16 +142,16 @@ listingController.updateListing = async (req, res, next) => {
 
         let setColumns = '';
         catsToUpdate.forEach((category, i, arr) => {
-            setColumns += `${category} = $${i + 1}`;
+            setColumns += `${category} = $${i + 2}`;
             if (i < arr.length - 1) setColumns += ', ';
         });
 
         const updateListingQuery = `UPDATE listings
             SET ${setColumns}
-            WHERE _id = ${id}
+            WHERE _id = $1
             RETURNING *`;
 
-        const response = await client.query(updateListingQuery, [...newVals]);
+        const response = await client.query(updateListingQuery, [id, ...newVals]);
         res.locals.updatedListing = response.rows[0];
     } catch (err) {
         return next({
@@ -166,6 +166,41 @@ listingController.updateListing = async (req, res, next) => {
     }
 };
 
-listingController.deleteListing = async (req, res, next) => {};
+listingController.deleteListing = async (req, res, next) => {
+    const client = await pool.connect()
+        .catch(err => next({
+            log: `listingController - pool connection failed ERROR: ${err}`,
+            message: {
+                err: 'Error in listingController.deleteListing. Check server logs'
+            }
+        }));
+    try {
+        const { id } = req.params;
+        if (!id) return next({
+            log: `listingController.deleteListing - never received an ID in params ERROR : ${err}`,
+            message: {
+                err: 'Error in listingController.deleteListing. Check server logs'
+            }
+        });
+        console.log('passed in id param: ', id);
+
+        const deleteListingQuery = `DELETE FROM listings
+            WHERE _id = $1
+            RETURNING *`;
+
+        const response = await client.query(deleteListingQuery, [ id ]);
+        res.locals.deletedListing = response.rows[0];
+    } catch (err) {
+        return next({
+            log: `listingController.deleteListing - inserting into listings table ERROR: ${err}`,
+            message: {
+                err: 'Error in listingController.deleteListing. Check server logs'
+            }
+        });
+    } finally {
+        client.release();
+        return next();
+    }
+};
 
 module.exports = listingController;
