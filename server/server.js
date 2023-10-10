@@ -8,6 +8,7 @@ const app = express();
 app.use("/listing", listing);
 app.use("/image", image);
 
+
 app.use((err, req, res, next) => {
   const defaultErr = {
     log: "Express error handler caught unknown middleware error",
