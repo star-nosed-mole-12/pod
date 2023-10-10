@@ -41,7 +41,7 @@ module.exports = {
             title: 'Development',
             template: './client/index.html'
         }),
-        new webpack.DefinePlugin(envKeys)
+        
     ],
     devServer: {
         static: {
@@ -49,7 +49,7 @@ module.exports = {
             directory: path.join(__dirname, '/dist')
         },
         proxy: {
-            '/': 'http://localhost:3000',
+            '/api': 'http://localhost:4000',
         },
         hot: true,
         historyApiFallback: true

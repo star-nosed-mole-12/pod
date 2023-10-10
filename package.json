@@ -5,14 +5,15 @@
   "main": "webpack.config.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start":"NODE_ENV=production nodemon server/server.js",
-    "dev":"NODE_ENV=development nodemon server/server.js & NODE_ENV=development webpack server --open",
-    "build":"webpack"
+    "start": "NODE_ENV=production nodemon server/server.js",
+    "dev": "NODE_ENV=development nodemon server/server.js & NODE_ENV=development webpack server --open",
+    "build": "webpack"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@babel/preset-react": "^7.22.15",
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.6",
     "express": "^4.18.2",
