@@ -4,11 +4,11 @@ const listingController = require("../controllers/listingController");
 
 router.get("/", listingController.getAllListings, (req, res) => {
   console.log(res.locals.listings);
-  return res.status(200).send(res.locals.listings);
+  return res.status(200).json(res.locals.listings);
 });
 
 router.get("/:id", listingController.getListing, (req, res) => {
-  return res.status(200).send(res.locals.listing);
+  return res.status(200).json(res.locals.listing);
 });
 
 router.post("/", listingController.createListing, (req, res) => {
