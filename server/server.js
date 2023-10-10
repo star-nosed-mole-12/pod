@@ -5,6 +5,8 @@ const cors = require("cors");
 const PORT = 3000;
 const app = express();
 
+app.use(express.json());
+
 const listingRouter = require('./routes/listingRouter');
 const imageRouter = require('./routes/imageRouter');
 
