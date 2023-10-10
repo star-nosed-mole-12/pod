@@ -1,7 +1,9 @@
-const imageController = {};
-const AWS = require("aws-sdk");
 require("aws-sdk/lib/maintenance_mode_message").suppress = true;
 require("dotenv").config();
+
+const pool = require("../db/models");
+const imageController = {};
+const AWS = require("aws-sdk");
 
 const s3 = new AWS.S3({
   accessKeyId: process.env.AWS_ACC_KEY,
@@ -10,12 +12,15 @@ const s3 = new AWS.S3({
 });
 
 imageController.getUrl = async (req, res, next) => {
-  const { bucket, key } = req.body;
+  const { key } = req.body;
+  // Either we set a key and send it to client or client sets a key and sends to us
+  // Either way need to store key inside of our DB and use it to query for our photos.
   const params = {
-    Bucket: bucket,
+    Bucket: "listing-photos-scout",
     Key: key,
     Expires: 60,
   };
+  console.log(params);
   try {
     const url = await s3.getSignedUrlPromise("putObject", params);
     res.locals.url = url;

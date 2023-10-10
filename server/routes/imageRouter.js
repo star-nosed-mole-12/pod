@@ -4,5 +4,7 @@ const imageController = require("../controllers/imageController");
 
 router.get("/", imageController.getUrl, (req, res, next) => {
   const { url } = res.locals;
-  return res.sendStatus(200).json(url);
+  return res.status(200).json(url);
 });
+
+module.exports = router;
