@@ -41,7 +41,6 @@ module.exports = {
             title: 'Development',
             template: './client/index.html'
         }),
-        new webpack.DefinePlugin(envKeys)
     ],
     devServer: {
         static: {
