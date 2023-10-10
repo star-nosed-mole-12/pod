@@ -90,7 +90,7 @@ listingController.createListing = async (req, res, next) => {
         const createListingQuery = `INSERT INTO listings
                 (product_name, price, quantity, category, seller_id)
             VALUES ($1, $2, $3, $4, $5)`;
-        console.log(req.body);
+        console.log('request body: ', req.body);
 
         await client.query(createListingQuery, [
             req.body.name,
@@ -112,7 +112,60 @@ listingController.createListing = async (req, res, next) => {
     }
 };
 
-listingController.updateListing = async (req, res, next) => {};
+listingController.updateListing = async (req, res, next) => {
+    const client = await pool.connect()
+        .catch(err => next({
+            log: `listingController - pool connection failed ERROR: ${err}`,
+            message: {
+                err: 'Error in listingController.updateListing. Check server logs'
+            }
+        }));
+    try {
+        const { id } = req.params;
+        if (!id) return next({
+            log: `listingController.updateListing - never received an ID in params ERROR : ${err}`,
+            message: {
+                err: 'Error in listingController.updateListing. Check server logs'
+            }
+        });
+        console.log('passed in id param: ', id);
+        console.log('request body: ', req.body);
+        // const { updateVals } = req.body;
+        const catsToUpdate = Object.keys(req.body);
+        const newVals = Object.values(req.body);
+        if (!catsToUpdate || !newVals) return next({
+            log: `listingController.updateListing - improper body (categories or values) ERROR: ${err}`,
+            message: {
+                err: 'Error in listingController.updateListing. Check server logs'
+            }
+        });
+
+        let setColumns = '';
+        catsToUpdate.forEach((category, i, arr) => {
+            setColumns += `${category} = $${i + 1}`;
+            if (i < arr.length - 1) setColumns += ', ';
+        });
+
+        const updateListingQuery = `UPDATE listings
+            SET ${setColumns}
+            WHERE _id = ${id}
+            RETURNING *`;
+
+        const response = await client.query(updateListingQuery, [...newVals]);
+        res.locals.updatedListing = response.rows[0];
+    } catch (err) {
+        return next({
+            log: `listingController.updateListing - querying listings from db ERROR: ${err}`,
+            message: {
+                err: 'Error in listingController.updateListing. Check server logs'
+            }
+        });
+    } finally {
+        client.release();
+        return next();
+    }
+};
 
 listingController.deleteListing = async (req, res, next) => {};
+
 module.exports = listingController;
