@@ -4,23 +4,23 @@ const listingController = require("../controllers/listingController");
 
 router.get("/", listingController.getAllListings, (req, res) => {
   console.log(res.locals.listings);
-  return res.sendStatus(200);
+  return res.status(200).json(res.locals.listings);
 });
 
 router.get("/:id", listingController.getListing, (req, res) => {
-  return res.sendStatus(200);
+  return res.status(200).json(res.locals.listing);
 });
 
 router.post("/", listingController.createListing, (req, res) => {
-  return res.sendStatus(200);
+  return res.status(200).send('New listing posted');
 });
 
-router.put("/", listingController.updateListing, (req, res) => {
-  return res.sendStatus(200);
+router.patch("/:id", listingController.updateListing, (req, res) => {
+  return res.status(200).json(res.locals.updatedListing);
 });
 
-router.delete("/", listingController.deleteListing, (req, res) => {
-  return res.sendStatus(200);
+router.delete("/:id", listingController.deleteListing, (req, res) => {
+  return res.status(200).json(res.locals.deletedListing);
 });
 
 module.exports = router;
