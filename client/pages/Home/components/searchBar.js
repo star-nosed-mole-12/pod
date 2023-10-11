@@ -1,5 +1,6 @@
 import React from "react";
 import {useState} from 'react';
+import styled from 'styled-components';
 
 const SearchBar = () => {
     const [searchInput, setSearchInput] = useState("");
@@ -18,7 +19,7 @@ const SearchBar = () => {
                     <StyledInput type="search" id="search" placeholder="Search"></StyledInput>
                     </td>
                     <td>
-                        <a href="#" class="material-icons"></a>
+                        <a href="#" className="material-icons"></a>
                     </td>
 
                 </tr>
