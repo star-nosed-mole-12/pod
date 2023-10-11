@@ -1,28 +1,31 @@
-const express = require('express');
-const cors = require('cors');
+const express = require("express");
+const path = require("path");
+const cors = require("cors");
 
+const PORT = 3000;
 const app = express();
-const port = 3010;
 
-// Middleware
-app.use(cors());
 app.use(express.json());
 
+const listingRouter = require('./routes/listingRouter');
+const imageRouter = require('./routes/imageRouter');
 
-// Sample data
-const items = [
-    { id: 1, price: 20, name: 'Item 1', image: 'https://www.att.com/scmsassets/global/devices/phones/apple/apple-iphone-14/carousel/blue/blue-1.png' },
-    { id: 2, price: 25, name: 'Item 2', image: 'https://www.att.com/scmsassets/global/devices/phones/apple/apple-iphone-14/carousel/blue/blue-1.png' },
-    { id: 3, price: 30, name: 'Item 3', image: 'https://www.att.com/scmsassets/global/devices/phones/apple/apple-iphone-14/carousel/blue/blue-1.png' },
-    { id: 4, price: 35, name: 'Item 4', image: 'https://www.att.com/scmsassets/global/devices/phones/apple/apple-iphone-14/carousel/blue/blue-1.png' },
-    // Add more items as needed
-];
+app.use('/', express.static(path.join(__dirname, '../dist')));
 
-// Route to retrieve all items
-app.get('/category', (req, res) => {
-    res.json(items);
+app.use("/listing", listingRouter);
+app.use("/image", imageRouter);
+
+app.use((err, req, res, next) => {
+  const defaultErr = {
+    log: "Express error handler caught unknown middleware error",
+    status: 500,
+    message: { err: "An error occurred" },
+  };
+  const errorObj = Object.assign({}, defaultErr, err);
+  console.log(errorObj.log);
+  return res.status(errorObj.status).json(errorObj.message);
 });
 
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+app.listen(PORT, () => {
+  console.log(`listening on port ${PORT}`);
 });

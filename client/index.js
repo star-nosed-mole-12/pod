@@ -1,8 +1,22 @@
-// require('file-loader?name=[name].[ext]!./index.html')
-import React from 'react';
-import { createRoot } from 'react-dom/client';
-import { AllListings } from './pages/AllListings/AllListings.jsx';
+import App from "./App.jsx";
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import React from "react";
 
-const appElement = document.getElementById('app');
-const root = createRoot(appElement)
-root.render(<AllListings />)
+
+const rootElement = document.getElementById("root");
+const root = createRoot(rootElement);
+
+// root.render(
+//   <StrictMode>
+//     ///* <Provider store={store}> */
+//       <App />
+//     {/* </Provider> */}
+//   </StrictMode>
+// );
+
+root.render(
+    <StrictMode>
+       <App />
+     </StrictMode>
+  );

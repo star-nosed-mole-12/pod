@@ -28,12 +28,30 @@ module.exports = {
                     'css-loader',
                     'sass-loader'
                 ]
+            },
+            {
+                test : /\.(png|svg|jpg|jpeg|gif)$/i,
+                type: "asset/resource"
+
             }
         ]
     },
     plugins: [
         new HtmlWebpackPlugin({
-          template: path.join(__dirname, "src", "index.html"),
+            title: 'Development',
+            template: './client/index.html'
         }),
-      ],
-}
+    ],
+    devServer: {
+        static: {
+            publicPath: '/',
+            directory: path.join(__dirname, '/dist')
+        },
+        proxy: {
+            '/': 'http://localhost:3000',
+        },
+        hot: true,
+        historyApiFallback: true
+    },
+    devtool: 'source-map'
+};
