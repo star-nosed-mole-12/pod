@@ -31,7 +31,7 @@ flex-direction: column;
 justify-content: center;
 width : 14rem;
 padding-right: 5px;
-background-color : #D8C4B6;
+background-color : #F7F7F7;
 transition: 0.2s;
 position: relative;
 
@@ -52,5 +52,6 @@ height: 1.5rem;
 margin-bottom: 1rem;
 border: none;
 color: blue;
+background-color: white;
 `
 export default Category;

@@ -86,7 +86,7 @@ color : #053B50;
 const Container = styled.div`
 display : flex;
 justify-content : space-between;
-background-color : #FAF2D3;
+background-color : ##F1EFEF;
 
 `
 export default Header;
