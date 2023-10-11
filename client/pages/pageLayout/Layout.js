@@ -2,8 +2,9 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import { BrowserRouter as Router, Routes, Route, Link, Switch } from "react-router-dom";
 
-import { Footer } from "../../common/Footer"
-import { Header } from "../../common/Header"
+import Footer from "../../common/Footer"
+import Header from "../../common/Header"
+import Home from "../Home/Home"
 
 const Pages = () => {
 

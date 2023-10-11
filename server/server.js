@@ -10,6 +10,8 @@ app.use(express.json());
 const listingRouter = require('./routes/listingRouter');
 const imageRouter = require('./routes/imageRouter');
 
+app.use('/', express.static(path.join(__dirname, '../dist')));
+
 app.use("/listing", listingRouter);
 app.use("/image", imageRouter);
 
