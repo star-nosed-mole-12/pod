@@ -1,58 +1,39 @@
-const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    entry: {
-        src: './client/index.js'
-    },
     output: {
-        path: path.resolve(__dirname, 'dist'),
-        publicPath: '/dist/',
-        filename: 'bundle.js'
+        path: path.join(__dirname, 'dist'),
+        filename: 'index.bundle.js',
+        publicPath: '/',
     },
-    mode: process.env.NODE_ENV,
+    devServer: {
+        port: 3000,
+        hot: true,
+        open: true
+    },
     module: {
         rules: [
             {
-                test: /\.jsx?/,
-                exclude: /node_modules/,
+                test: /\.(js|jsx)$/,
+                exclude: /node.modules/,
                 use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: [
-                            '@babel/preset-env',
-                            '@babel/preset-react'
-                        ]
-                    }
+                    loader: 'babel-loader'
                 }
             },
             {
-                test: /\.css$/i,
+                test: /\.(scss)$/,
                 use: [
-                    "style-loader",
-                    "css-loader",
+                    'style-loader',
+                    'css-loader',
+                    'sass-loader'
                 ]
             }
         ]
     },
     plugins: [
         new HtmlWebpackPlugin({
-            title: 'Development',
-            template: './client/index.html'
+          template: path.join(__dirname, "src", "index.html"),
         }),
-        new webpack.DefinePlugin(envKeys)
-    ],
-    devServer: {
-        static: {
-            publicPath: '/',
-            directory: path.join(__dirname, '/dist')
-        },
-        proxy: {
-            '/': 'http://localhost:3000',
-        },
-        hot: true,
-        historyApiFallback: true
-    },
-    devtool: 'source-map'
-};
+      ],
+}
