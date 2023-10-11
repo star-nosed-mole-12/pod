@@ -9,6 +9,7 @@ const listingRouter = require("./routes/listingRouter");
 const imageRouter = require("./routes/imageRouter");
 const authRouter = require("./routes/authRouter");
 
+app.use(express.json());
 app.use("/listing", listingRouter);
 app.use("/image", imageRouter);
 app.use("/auth", authRouter);

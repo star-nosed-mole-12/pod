@@ -3,7 +3,21 @@ const pool = require("../db/models");
 const authController = {};
 
 authController.createUser = async (req, res, next) => {
-  //   const { username, password } = req.body;
+  const {
+    address,
+    city,
+    email,
+    first_name,
+    last_name,
+    phone,
+    pw,
+    state,
+    username,
+    zip,
+  } = req.body;
+
+  // what are the required fields here? // what do we need to error test for
+
   const client = await pool.connect().catch((err) =>
     next({
       log: `authController - pool connection failed; ERROR: ${err}`,
@@ -13,23 +27,54 @@ authController.createUser = async (req, res, next) => {
     })
   );
   try {
-    const listingsQuery = `SELECT l.product_name AS listing,
-      l.price,
-      l.quantity,
-      l.category,
-      u.username AS seller
-  FROM listings l
-  JOIN users u
-    ON l.seller_id = u._id; `;
-
-    const response = await client.query(listingsQuery);
-    console.log("RESPONSE INSIDE OF AUTHCONTROLLER", response);
-    res.locals.listings = response.rows;
+    const createUserQuery = `INSERT INTO users(address, city, email, first_name, last_name, phone, pw, state, username, zip) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10);`;
+    const response = await client.query(createUserQuery, [
+      address,
+      city,
+      email,
+      first_name,
+      last_name,
+      phone,
+      pw,
+      state,
+      username,
+      zip,
+    ]);
   } catch (err) {
     return next({
-      log: `listingController.getAllListings - querying listings from db ERROR: ${err}`,
+      log: `authController.createUser - querying listings from db ERROR: ${err}`,
       message: {
-        err: "Error in listingController.getAllListings. Check server logs",
+        err: "Error in authController.createUser. Check server logs",
+      },
+    });
+  } finally {
+    client.release();
+    return next();
+  }
+};
+
+authController.loginTestRoute = async (req, res, next) => {
+  console.log("test route");
+  const client = await pool.connect().catch((err) =>
+    next({
+      log: `authController - pool connection failed; ERROR: ${err}`,
+      message: {
+        err: "Error in authController.createUser. Check server logs",
+      },
+    })
+  );
+  try {
+    console.log("test route1");
+    const username = "testuser";
+    const password = "testpassword";
+    const userQuery = `SELECT username, pw FROM users WHERE username= ? AND pw= ?`;
+    const result = await client.query(userQuery, [username, password]);
+    console.log(result);
+  } catch (e) {
+    return next({
+      log: `authController.createUser - querying listings from db ERROR: ${err}`,
+      message: {
+        err: "Error in authController.createUser. Check server logs",
       },
     });
   } finally {
