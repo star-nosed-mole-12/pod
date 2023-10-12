@@ -52,6 +52,6 @@ height: 1.5rem;
 margin-bottom: 1rem;
 border: none;
 color: blue;
-background-color: white;
+background-color: #F7F7F7;
 `
 export default Category;

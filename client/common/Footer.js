@@ -12,7 +12,6 @@ const Footer = () => {
 const Foot = styled.div`
 display: flex;
 justify-content: center;
-background-color: #B5C99A;
 
 `
 export default Footer;
