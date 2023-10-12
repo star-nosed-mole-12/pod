@@ -15,7 +15,9 @@ listingController.getAllListings = async (req, res, next) => {
             l.price,
             l.quantity,
             l.category,
-            u.username AS seller
+            u.username AS seller,
+            u.city,
+            u.state
         FROM listings l
         JOIN users u
           ON l.seller_id = u._id;`;
@@ -57,7 +59,9 @@ listingController.getListing = async (req, res, next) => {
             l.price,
             l.quantity,
             l.category,
-            u.username AS seller
+            u.username AS seller,
+            u.city,
+            u.state
         FROM listings l
         JOIN users u
             ON l.seller_id = u._id
