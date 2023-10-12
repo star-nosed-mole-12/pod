@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 require("aws-sdk/lib/maintenance_mode_message").suppress = true;
 require("dotenv").config();
 
@@ -31,3 +32,8 @@ imageController.getUrl = async (req, res, next) => {
 };
 
 module.exports = imageController;
+=======
+const imageController = {};
+
+module.exports = imageController;
+>>>>>>> dev

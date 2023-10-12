@@ -33,6 +33,11 @@ module.exports = {
                     "style-loader",
                     "css-loader",
                 ]
+            },
+            {
+                test : /\.(png|svg|jpg|jpeg|gif)$/i,
+                type: "asset/resource"
+
             }
         ]
     },
@@ -51,6 +56,7 @@ module.exports = {
             '/': 'http://localhost:3000',
         },
         hot: true,
+        open : true,
         historyApiFallback: true
     },
     devtool: 'source-map'
