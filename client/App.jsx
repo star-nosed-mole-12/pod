@@ -1,12 +1,11 @@
 import React from "react";
-
+import "./styles/App.scss";
 import Pages from "./pages/pageLayout/Layout";
 
 const App  = () => {
 
     return (
         <div>
-            <h1>welcome to the app</h1>
             < Pages />
         </div>
     )

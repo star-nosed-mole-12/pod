@@ -43,8 +43,9 @@ const Header = () => {
                         </Logo>
                     </nav>
                 <Navigation />
+                
                 </Container>
-
+            <hr />
             </header>
         </>
     )
@@ -56,6 +57,7 @@ margin-left: 1.5rem;
 font-family: 'Lilita One', cursive;
 font-family: 'Lobster', cursive;
 font-size: 1.5rem;
+background-color : blue;
 `
 const P = styled.a`
 color: #088395 ;
