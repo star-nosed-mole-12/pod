@@ -7,7 +7,7 @@ export const AllListings = () => {
 
     const getAllItems = async () => {
         try {
-            const res = await fetch('http://localhost:3010/category/');
+            const res = await fetch('http://localhost:3000/listing/');
             const data = await res.json();
             setItems(data);
         } catch (error) {
@@ -17,7 +17,7 @@ export const AllListings = () => {
 
     // const getItemsByCategory = async (categoryId) => {
     //     try {
-    //         const res = await fetch(`http://localhost:3010/category/${categoryId}`);
+    //         const res = await fetch(`http://localhost:3000/listing/${listingId}`);
     //         const data = await res.json();
     //         setItems(data);
     //     } catch (error) {

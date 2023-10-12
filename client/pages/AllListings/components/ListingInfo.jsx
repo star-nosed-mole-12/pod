@@ -7,9 +7,12 @@ const ListingInfo = (props) => {
 return (
 
     <div>
-        <img src={listingData.image}></img>
-        <div>{listingData.name}</div>
+        {/* <img src={listingData.image}></img> */}
+        <div>{listingData.listing}</div>
         <div>${listingData.price}</div>
+        <div>{listingData.quantity}</div>
+        <div>{listingData.category}</div>
+        <div>{listingData.seller}</div>
     </div>
 )
 }
