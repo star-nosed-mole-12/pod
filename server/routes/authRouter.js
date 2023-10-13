@@ -4,7 +4,7 @@ const authController = require("../controllers/authController");
 
 const passport = require("passport");
 
-router.post("/login", authController.loginTestRoute, (req, res) => {
+router.post("/login", authController.verifyUser, (req, res) => {
   res.status(200).send('Login successful');
 });
 
