@@ -5,6 +5,8 @@ import { BrowserRouter as Router, Routes, Route, Link, Switch } from "react-rout
 import Footer from "../../common/Footer"
 import Header from "../../common/Header"
 import Home from "../Home/Home"
+import Login from "../SignInUp/Login";
+import SignUp from "../SignInUp/SignUp";
 
 const Pages = () => {
 
@@ -28,9 +30,12 @@ const Pages = () => {
                     <Route path ="" element={<Home />} />
                     <Route />
                     <Route />
-
                 </Route>
             </Routes>
+            <Routes>
+                    <Route path ='/login' element={<Login/>}/>
+                    <Route path ='/signup' element={<SignUp/>}/>
+                </Routes>
         </Router>
         </>
     )
