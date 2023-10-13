@@ -4,8 +4,8 @@ import styled from "styled-components";
 import { NavLink, Navlist } from "react-router-dom";
 
 const links = [
-    {name: "Signup", path:"/Signup"},
-    {name:"Login", path: "/Login"},
+    {name: "Signup", path:"/signup"},
+    {name:"Login", path: "/login"},
     {name:"Cart", path: "/Cart"}
 
 ]
