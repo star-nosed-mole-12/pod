@@ -10,6 +10,7 @@ module.exports = {
         filename: 'index.bundle.js',
         publicPath: '/',
     },
+    mode : "development",
     devServer: {
         port: 3000,
         hot: true,

@@ -2,11 +2,12 @@ import React from "react";
 import cart from "../assets/cart.png";
 import styled from "styled-components";
 import { NavLink, Navlist } from "react-router-dom";
-
+import { BiCart } from "react-icons/bi";
 const links = [
     {name: "Signup", path:"/signup"},
     {name:"Login", path: "/login"},
-    {name:"Cart", path: "/Cart"}
+    {name: "listing", path: "/listing"},
+    {name:"Cart", path: "/cart"}
 
 ]
 
@@ -43,7 +44,12 @@ const Header = () => {
                         </Logo>
                     </nav>
                 <Navigation />
-                
+               
+                <Bi> <div className="cart"> 
+                <div className="count"><span>3</span></div>
+                 { < BiCart  className="bicart"/>}
+                </div> 
+                </Bi> 
                 </Container>
             <hr />
             </header>
@@ -57,7 +63,6 @@ margin-left: 1.5rem;
 font-family: 'Lilita One', cursive;
 font-family: 'Lobster', cursive;
 font-size: 1.5rem;
-background-color : blue;
 `
 const P = styled.a`
 color: #088395 ;
@@ -76,9 +81,10 @@ color: white;
 
 const NavContainer = styled.nav`
 display : flex;
+
 list-style: none;
 align-self: center;
-margin-right : 5rem;
+margin : auto;
 gap: 10px;
 `
 const StyledNavLink = styled(NavLink)`
@@ -86,9 +92,50 @@ color : #053B50;
 `
 
 const Container = styled.div`
-display : flex;
+display : grid;
+grid-template-columns : 2fr 1fr 2fr;
 justify-content : space-between;
 background-color : ##F1EFEF;
 
+`
+
+const Bi = styled.div`
+margin: auto;
+
+.cart {
+    position: relative;
+    display: block;
+    width: fit-content;
+    height: auto;
+    overflow: hidden;
+    .bicart {
+      position: relative;
+      top: 4px;
+      z-index: 1;
+      font-size: 24px;
+        height: 3rem;
+        width: 2rem;
+    }
+    .count {
+        position: absolute;
+        top: 0;
+        justify-content: center;
+        text-align: center;
+        right: 0;
+        z-index: 2;
+        font-size: 1rem;
+        border-radius: 50%;
+        background: #d60b28;
+        width: 1.5rem;
+        height: auto;
+        line-height:16px;
+        display: block;
+        text-align: center;
+        color: white;
+        font-family: sans-serif;
+        font-weight: bold; 
+    }
+
+    }
 `
 export default Header;
