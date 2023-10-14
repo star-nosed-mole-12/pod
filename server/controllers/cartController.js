@@ -1,4 +1,3 @@
-const { cli } = require('webpack-dev-server');
 const pool = require('../db/models');
 
 const cartController = {};
@@ -62,23 +61,62 @@ cartController.addToUserCart = async (req, res, next) => {
         console.log(`user id: ${userId}`);
         console.log(`listing id: ${listingId}, qty: ${qty}`);
 
-        // // check if user already has item in cart
-        // const checkQuery = `SELECT quantity FROM carts
-        // WHERE user_id = $1 AND listing_id = $2`;
-        // const checkResponse = await client.query(checkQuery, [ userId, listingId ]);
-        // if (!checkResponse.rows.length) {
-
-        // }
+        // check if user already has item in cart
+        const checkQuery = `SELECT quantity FROM carts
+        WHERE user_id = $1 AND listing_id = $2`;
+        const checkResponse = await client.query(checkQuery, [ userId, listingId ]);
+        // console.log('what do we got?', checkResponse);
+        if (checkResponse.rows.length) {
+            console.log('We got something already');
+            console.log('we have this many already: ', checkResponse.rows[0].quantity);
+            req.query.qty = parseInt(qty) + checkResponse.rows[0].quantity;
+            return cartController.updateUserCart(req, res, next);
+        }
         
         const addToCartQuery = `INSERT INTO carts
         VALUES ($1, $2, $3);`
-
         await client.query(addToCartQuery, [ userId, listingId, qty ]);
+        client.release();
+        return next();
     } catch (err) {
         return next({
             log: `cartController.addToUserCart - inserting into user cart in db ERROR: ${err}`,
             message: {
                 err: 'Error in cartController.addToUserCart. Check server logs'
+            }
+        });
+    }
+}
+
+cartController.updateUserCart = async (req, res, next) => {
+    const client = await pool.connect()
+        .catch(err => next({
+            log: `cartController - pool connection failed ERROR: ${err}`,
+            message: {
+                err: 'Error in cartController.updateUserCart. Check server logs'
+            }
+        }));
+    try {
+        const { userId, listingId, qty } = req.query;
+        if (!userId || !listingId || !qty) return next({
+            log: `cartController.updateUserCart - never received user and/or listing ID(s) and/or qty in query ERROR`,
+            message: {
+                err: 'Error in cartController.updateUserCart. Check server logs'
+            }
+        });
+        console.log(`user id: ${userId}`);
+        console.log(`listing id: ${listingId}, NEW qty: ${qty}`);
+
+        const updateCartQuery = `UPDATE carts
+        SET quantity = $1
+        WHERE user_id = $2 AND listing_id = $3;`;
+
+        await client.query(updateCartQuery, [ qty, userId, listingId ]);
+    } catch (err) {
+        return next({
+            log: `cartController.updateUserCart - altering user cart in db ERROR: ${err}`,
+            message: {
+                err: 'Error in cartController.updateUserCart. Check server logs'
             }
         });
     } finally {
