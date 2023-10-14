@@ -2,8 +2,12 @@ const express = require('express');
 const router = express.Router();
 const cartController = require('../controllers/cartController');
 
-router.get('/:id', cartController.getUserCart,
+router.get('/', cartController.getUserCart,
     (req, res) => res.status(200).json(res.locals.userCart)
+);
+
+router.post('/', cartController.addToUserCart,
+    (req, res) => res.status(200).send('Added to cart')
 );
 
 module.exports = router;
