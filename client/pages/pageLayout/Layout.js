@@ -5,6 +5,8 @@ import { BrowserRouter as Router, Routes, Route, Link, Switch } from "react-rout
 import Footer from "../../common/Footer"
 import Header from "../../common/Header"
 import Home from "../Home/Home"
+import { AllListings } from "../AllListings/AllListings.jsx";
+import { ProductDetails } from "../ProductDetails/ProductDetails.jsx";
 
 const Pages = () => {
 
@@ -25,8 +27,9 @@ const Pages = () => {
             <Routes>
 
                 <Route path="/" element={<Page />}>
-                    <Route path ="" element={<Home />} />
-                    <Route />
+                    {/* <Route path ="" element={<Home />} /> */}
+                    <Route path ="" element={<AllListings />} />
+                    {/* <Route path ="" element={<ProductDetails />} /> */}
                     <Route />
 
                 </Route>
