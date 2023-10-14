@@ -106,6 +106,11 @@ cartController.updateUserCart = async (req, res, next) => {
         });
         console.log(`user id: ${userId}`);
         console.log(`listing id: ${listingId}, NEW qty: ${qty}`);
+        // if quantity in cart for listing is now 0, delete
+        if (parseInt(qty) === 0) {
+            console.log('delete this item from cart');
+            return cartController.removeCartItem(req, res, next);
+        }
 
         const updateCartQuery = `UPDATE carts
         SET quantity = $1
@@ -117,6 +122,41 @@ cartController.updateUserCart = async (req, res, next) => {
             log: `cartController.updateUserCart - altering user cart in db ERROR: ${err}`,
             message: {
                 err: 'Error in cartController.updateUserCart. Check server logs'
+            }
+        });
+    } finally {
+        client.release();
+        return next();
+    }
+}
+
+cartController.removeCartItem = async (req, res, next) => {
+    const client = await pool.connect()
+        .catch(err => next({
+            log: `cartController - pool connection failed ERROR: ${err}`,
+            message: {
+                err: 'Error in cartController.updateUserCart. Check server logs'
+            }
+        }));
+    try {
+        const { userId, listingId } = req.query;
+        if (!userId || !listingId) return next({
+            log: `cartController.removeCartItem - never received user and/or listing ID(s) in query ERROR`,
+            message: {
+                err: 'Error in cartController.removeCartItem. Check server logs'
+            }
+        });
+        console.log(`user id: ${userId}`);
+        console.log(`listing to remove: ${listingId}`);
+
+        const removeItemQuery = `DELETE FROM carts
+        WHERE user_id = $1 AND listing_id = $2;`;
+        await client.query(removeItemQuery, [ userId, listingId ]);
+    } catch (err) {
+        return next({
+            log: `cartController.removeFromCart - deleting from user cart in db ERROR: ${err}`,
+            message: {
+                err: 'Error in cartController.removeFromCart. Check server logs'
             }
         });
     } finally {
