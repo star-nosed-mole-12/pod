@@ -44,3 +44,6 @@ export const AllListings = () => {
         </div>
     );
 }
+
+
+export default AllListings;
