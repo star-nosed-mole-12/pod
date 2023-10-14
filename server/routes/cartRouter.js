@@ -10,4 +10,8 @@ router.post('/', cartController.addToUserCart,
     (req, res) => res.status(200).send('Added to cart')
 );
 
+router.patch('/', cartController.updateUserCart,
+    (req, res) => res.status(200).send('Updated cart')
+);
+
 module.exports = router;
