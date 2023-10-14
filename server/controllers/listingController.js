@@ -17,7 +17,8 @@ listingController.getAllListings = async (req, res, next) => {
             l.category,
             u.username AS seller,
             u.city,
-            u.state
+            u.state,
+            l.img_url
         FROM listings l
         JOIN users u
           ON l.seller_id = u._id;`;
@@ -61,7 +62,8 @@ listingController.getListing = async (req, res, next) => {
             l.category,
             u.username AS seller,
             u.city,
-            u.state
+            u.state,
+            l.img_url,
         FROM listings l
         JOIN users u
             ON l.seller_id = u._id
@@ -92,8 +94,8 @@ listingController.createListing = async (req, res, next) => {
         }));
     try {
         const createListingQuery = `INSERT INTO listings
-                (product_name, price, quantity, category, seller_id)
-            VALUES ($1, $2, $3, $4, $5)`;
+                (product_name, price, quantity, category, seller_id, img_url)
+            VALUES ($1, $2, $3, $4, $5, $6)`;
         console.log('request body: ', req.body);
 
         await client.query(createListingQuery, [
@@ -101,7 +103,8 @@ listingController.createListing = async (req, res, next) => {
             req.body.price,
             req.body.qty,
             req.body.category,
-            req.body.sellerId
+            req.body.sellerId,
+            req.body.listingUrl
         ]);
     } catch (err) {
         return next({

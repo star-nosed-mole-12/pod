@@ -1,21 +1,14 @@
 import React, { useEffect, useState } from "react";
-import ListingInputsImage from "./components/ListingInputsImage.jsx";
 
-export const ProductDetails = (props) => {
+export const ListingInputs = () => {
     const [inputs, setInputs] = useState({
         name: null,
         price: null,
         qty: null,
         category: null,
         sellerId: null,
-        listingUrl: null,
+        
     });
-
-    function getRandomInt(max) {
-        return Math.floor(Math.random() * max);
-      }
-    
-    const randomNumber = getRandomInt(10000)
   
     const handleChange = (event) => {
       const name = event.target.name;
@@ -25,13 +18,13 @@ export const ProductDetails = (props) => {
         setInputs({
             ...inputs,
             [name]: parseInt(value),
+            listingUrl: 
           });
       }
       else {
         setInputs({
             ...inputs,
             [name]: value,
-            listingUrl: randomNumber,
           });
       }
     }
@@ -58,8 +51,6 @@ export const ProductDetails = (props) => {
       });
     }
 
-
-
     return (
       <div>
         <form onSubmit={handleSubmit}>
@@ -68,12 +59,10 @@ export const ProductDetails = (props) => {
           <label>Quantity: <input className="input" type="number" name="qty" defaultValue={inputs.qty || ""} onChange={handleChange} /></label>
           <label>Category: <input className="input" type="text" name="category" defaultValue={inputs.category || ""} onChange={handleChange} /></label>
           <label>Seller: <input className="input" type="text" name="sellerId" defaultValue={inputs.sellerId || ""} onChange={handleChange} /></label>
-          <div><ListingInputsImage listingUrl={randomNumber} /></div>
           <input className="listingsInputs" type="submit" value="Submit" />
         </form>
-        
       </div>
     )
   }
   
-//   export default ProductDetails;
+  export default ListingInputs;
