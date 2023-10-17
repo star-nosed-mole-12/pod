@@ -1,4 +1,3 @@
-const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -7,32 +6,37 @@ module.exports = {
         src: './client/index.js'
     },
     output: {
-        path: path.resolve(__dirname, 'dist'),
-        publicPath: '/dist/',
-        filename: 'bundle.js'
+        path: path.join(__dirname, 'dist'),
+        filename: 'index.bundle.js',
+        publicPath: '/',
     },
-    mode: process.env.NODE_ENV,
+    mode : "development",
+    devServer: {
+        port: 3000,
+        hot: true,
+        open: true
+    },
     module: {
         rules: [
             {
-                test: /\.jsx?/,
-                exclude: /node_modules/,
+                test: /\.(js|jsx)$/,
+                exclude: /node.modules/,
                 use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: [
-                            '@babel/preset-env',
-                            '@babel/preset-react'
-                        ]
-                    }
+                    loader: 'babel-loader'
                 }
             },
             {
-                test: /\.css$/i,
+                test: /\.(scss)$/,
                 use: [
-                    "style-loader",
-                    "css-loader",
+                    'style-loader',
+                    'css-loader',
+                    'sass-loader'
                 ]
+            },
+            {
+                test : /\.(png|svg|jpg|jpeg|gif)$/i,
+                type: "asset/resource"
+
             }
         ]
     },
@@ -41,7 +45,6 @@ module.exports = {
             title: 'Development',
             template: './client/index.html'
         }),
-        new webpack.DefinePlugin(envKeys)
     ],
     devServer: {
         static: {
@@ -52,6 +55,7 @@ module.exports = {
             '/': 'http://localhost:3000',
         },
         hot: true,
+        open : true,
         historyApiFallback: true
     },
     devtool: 'source-map'
